@@ -4,12 +4,11 @@
 
 
     <div class="container">
-
-
         <form action="{{route('task.search')}}" method="GET">
             @csrf
             <input type="text" name="search" placeholder="Enter search key" />
-            <button class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn-primary" type="submit">Search</button> <a class="btn btn-primary" href="{{route('task.index')}}">Clear</a>
+
         </form>
 
 
@@ -29,25 +28,6 @@
 
 
             <a class="btn btn-primary" href="{{route('task.create')}}">Create new task</a>
-
-            <div class="change" class="col-md-6">
-
-                <form action="{{route('task.index')}}" method="GET">
-                    @csrf
-
-                    <select class ="form-control" name="type_id">
-
-                        @foreach ($types as $type)
-                            <option value="{{$type->id}}"> {{$type->title}} </option>
-                        @endforeach
-
-                    </select>
-
-                    <button class="btn btn-primary" type="submit">Filter</button>
-                    <a class="btn btn-primary" href="{{route('task.index')}}">Clear</a>
-
-                </form>
-            </div>
 
             @foreach ($tasks as $task)
 

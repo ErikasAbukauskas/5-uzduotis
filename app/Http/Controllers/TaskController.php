@@ -33,6 +33,7 @@ class TaskController extends Controller
             $tasks = Task::paginate(5);
         } else {
             $tasks = Task::orderBy($collumnName, $sortby)->where("type_id", $type_id)->paginate(3);
+            ;
         }
 
         return view("task.index", ["tasks" => $tasks, 'collumnName' => $collumnName, 'sortby' => $sortby, "types" => $types]);
@@ -110,7 +111,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $types = Type::all();
+        $types = Type::all()->sortBy("id",SORT_REGULAR, true);
         return view("task.edit", ["task" => $task, "types"=>$types]);
     }
 
@@ -162,6 +163,16 @@ class TaskController extends Controller
     {
         $task->delete();
         return redirect()->route("task.index")->with('success_message','Istrinta sekmingai');
+    }
+
+    public function search(Request $request)
+    {
+
+        $search = $request->search;
+
+        $tasks = Task::query()->where('title', 'LIKE', "%{$search}%")->orWhere('description', 'LIKE', "%{$search}%")->paginate(5);
+
+        return view("task.search", ['tasks' => $tasks]);
     }
 
 

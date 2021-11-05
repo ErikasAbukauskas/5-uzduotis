@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Task;
+
 use App\Type;
+
 use Illuminate\Http\Request;
 
 class TypeController extends Controller
@@ -12,12 +15,33 @@ class TypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $types = Type::sortable()->paginate(2);
+        $type = new Type;
 
-        return view("type.index", ["types" => $types]);
+        $types = Type::all();
+        $title = $request->title;
+        $collumnName = $request->collumnName;
+        $sortby = $request->sortby;
+
+        if(!$collumnName && !$sortby) {
+            $collumnName = 'id';
+            $sortby = 'asc';
+        }
+
+        if(!$title) {
+            $types = Type::paginate(5);
+        } else {
+            $types = Type::orderBy($collumnName, $sortby)->where("title", $title)->paginate(3);
+            ;
+        }
+
+        return view("type.index", ['collumnName' => $collumnName, 'sortby' => $sortby, "types" => $types]);
+
+        // $types = Type::sortable()->paginate(2);
+
+        // return view("type.index", ["types" => $types]);
     }
 
     /**
@@ -71,6 +95,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
+        $types = Type::all()->sortBy("id",SORT_REGULAR, true);
         return view("type.edit", ["type"=>$type]);
     }
 
@@ -102,5 +127,15 @@ class TypeController extends Controller
     {
         $type->delete();
         return redirect()->route("type.index")->with('success_message','Istrinta sekmingai');
+    }
+
+    public function search(Request $request)
+    {
+
+        $search = $request->search;
+
+        $types = Type::query()->where('title', 'LIKE', "%{$search}%")->orWhere('description', 'LIKE', "%{$search}%")->paginate(5);
+
+        return view("type.search", ['types' => $types]);
     }
 }
