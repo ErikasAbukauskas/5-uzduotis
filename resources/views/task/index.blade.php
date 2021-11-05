@@ -19,39 +19,14 @@
                 <th>@sortablelink('Action', 'Action')</th>
             </tr>
 
-
-            {{-- @if(session()->has("error_message"))
-                <div class="alert alert-danger">
-                    {{session()->get("error_message")}}
-                </div>
-            @endif
-
-            @if(session()->has("success_message"))
-                <div class="alert alert-success">
-                    {{session()->get("success_message")}}
-                </div>
-            @endif --}}
             <a class="btn btn-primary" href="{{route('task.create')}}">Create new task</a>
-
-            {{-- <div class="change" class="col-md-6">
-
-                <select class ="form-control" name="type">
-
-                    @foreach ($types as $type)
-                        <option value="{{$type->id}}"> {{$type->title}}</option>
-                    @endforeach
-
-                </select>
-
-                <button class="btn btn-primary" type="submit">Filter</button>
-            </div> --}}
 
             <div class="change" class="col-md-6">
 
                 <form action="{{route('task.index')}}" method="GET">
                     @csrf
 
-                    <select class ="form-control" name="filter">
+                    <select class ="form-control" name="type_id">
 
                         @foreach ($types as $type)
                             <option value="{{$type->id}}"> {{$type->title}}</option>
@@ -60,6 +35,7 @@
                     </select>
 
                     <button class="btn btn-primary" type="submit">Filter</button>
+                    <a class="btn btn-primary" href="{{route('task.index')}}">Clear</a>
 
                 </form>
             </div>

@@ -20,10 +20,22 @@ class TaskController extends Controller
         $type = new Type;
 
         $types = Type::all();
+        $type_id = $request->type_id;
+        $collumnName = $request->collumnName;
+        $sortby = $request->sortby;
 
-        $tasks = Task::sortable()->paginate(5);
+        if(!$collumnName && !$sortby) {
+            $collumnName = 'id';
+            $sortby = 'asc';
+        }
 
-        return view("task.index", ["tasks" => $tasks, "types" => $types]);
+        if(!$type_id) {
+            $tasks = Task::paginate(5);
+        } else {
+            $tasks = Task::orderBy($collumnName, $sortby)->where("type_id", $type_id)->paginate(3);
+        }
+
+        return view("task.index", ["tasks" => $tasks, 'collumnName' => $collumnName, 'sortby' => $sortby, "types" => $types]);
     }
 
     /**
@@ -151,18 +163,6 @@ class TaskController extends Controller
         $task->delete();
         return redirect()->route("task.index")->with('success_message','Istrinta sekmingai');
     }
-
-    public function filter(Request $request)
-    {
-        $tasks = Task::paginate(5);
-
-        $filtras = $request->get('type_id');
-
-        $tasks = Task::where($filtras)->get();
-        return view("task.filter", ['tasks'=>$tasks]);
-
-    }
-
 
 
 }
