@@ -2,6 +2,24 @@
 
 @section('content')
 <div class="container">
+
+    @error('title')
+        <div class="alert alert-danger">
+            {{$message}}
+            {{-- <p>Pavadinimas neivestas</p> --}}
+        </div>
+    @enderror
+
+    @error('description')
+        <div class="alert alert-danger">
+            {{$message}}
+            {{-- <p>Pavadinimas neivestas</p> --}}
+        </div>
+    @enderror
+
+
+
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -15,7 +33,13 @@
                             <label for="type_title" class="col-md-4 col-form-label text-md-right">{{ __('Type title') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="title" required autofocus>
+                                <input id="name" type="text" class="form-control @error('title') is-invalid @enderror" name="title" autofocus>
+
+                                @error('title')
+                                    <span role="alert" class="invalid-feedback">
+                                        <strong>*{{$message}}</strong>
+                                    </span>
+                                @enderror
 
                             </div>
                         </div>
@@ -25,7 +49,13 @@
 
                             {{-- jg issikraipys form-control pasalinti --}}
                             <div class="col-md-6" form-control>
-                                <textarea class="summernote" name="description" cols="5" rows="5"> </textarea>
+                                <textarea class="summernote @error('description') is-invalid @enderror" name="description" cols="5" rows="5"> </textarea>
+
+                                @error('description')
+                                    <span role="alert" class="invalid-feedback">
+                                        <strong>*{{$message}}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 

@@ -14,6 +14,10 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
+
+        // factory(Task::class, 35)->create();
+
+
         DB::table('tasks')->insert([
             'title' => Str::random(5),
             'description' => Str::random(10),
@@ -21,6 +25,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -30,6 +35,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -39,6 +45,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -48,6 +55,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -57,6 +65,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -66,6 +75,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -75,6 +85,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -84,6 +95,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -93,6 +105,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -102,6 +115,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -111,6 +125,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -120,6 +135,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -129,6 +145,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -138,6 +155,7 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
 
         DB::table('tasks')->insert([
@@ -147,6 +165,8 @@ class TaskSeeder extends Seeder
             'end_date' => date('y-m-d'),
             'logo' => Str::random(10),
             'type_id' => rand(1, 4),
+            'owner_id' => rand(1, 4),
         ]);
+
     }
 }

@@ -5,6 +5,27 @@
 
     <div class="container">
 
+        <div class="change" class="col-md-6">
+
+            <form action="{{route('task.index')}}" method="GET">
+                @csrf
+
+                <select class ="form-control" name="type_id">
+                    <option value="">Pasirinkite tipą</option>
+
+                    @foreach ($types as $type)
+                        <option value="{{$type->id}}"> {{$type->title}} </option>
+                    @endforeach
+
+                </select>
+
+                <button class="btn btn-primary" type="submit">Filter</button>
+
+                <a class="btn btn-primary" href="{{route('task.index')}}">Clear</a>
+
+            </form>
+        </div>
+
 
         <form action="{{route('task.search')}}" method="GET">
             @csrf
@@ -24,30 +45,14 @@
                 <th>@sortablelink('end_date', 'End date')</th>
                 <th>@sortablelink('logo', 'Logo')</th>
                 <th>@sortablelink('type_id', 'Type')</th>
-                <th>@sortablelink('Action', 'Action')</th>
+                <th>@sortablelink('owner_id', 'Owner')</th>
+                <th>Action</th>
             </tr>
 
 
             <a class="btn btn-primary" href="{{route('task.create')}}">Create new task</a>
 
-            <div class="change" class="col-md-6">
 
-                <form action="{{route('task.index')}}" method="GET">
-                    @csrf
-
-                    <select class ="form-control" name="type_id">
-
-                        @foreach ($types as $type)
-                            <option value="{{$type->id}}"> {{$type->title}} </option>
-                        @endforeach
-
-                    </select>
-
-                    <button class="btn btn-primary" type="submit">Filter</button>
-                    <a class="btn btn-primary" href="{{route('task.index')}}">Clear</a>
-
-                </form>
-            </div>
 
             @foreach ($tasks as $task)
 
@@ -58,7 +63,9 @@
                     <td> {{$task->start_date}} </td>
                     <td> {{$task->end_date}} </td>
                     <td> {{$task->logo}} </td>
-                    <td> {{$task->taskType->title}}</td>
+                    <td> {{$task->taskType->title}} </td>
+                    <td> {{$task->taskOwner->name}} {{$task->taskOwner->surname}} </td>
+
 
                     <td>
                         <div class="btn-group">
@@ -83,5 +90,7 @@
 
         </table>
         {!! $tasks->appends(Request::except('page'))->render() !!}
+       <strong>Iš viso: {{$record}} įrašų </strong>
+
     </div>
 @endsection

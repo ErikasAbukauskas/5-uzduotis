@@ -32,6 +32,7 @@
                     <select class ="form-control" name="title">
 
                         @foreach ($types as $type)
+
                             <option value="{{$type->title}}"> {{$type->title}} </option>
 
                         @endforeach
@@ -72,5 +73,6 @@
 
         </table>
         {!! $types->appends(Request::except('page'))->render() !!}
+        <strong>Iš viso: {{$record}} įrašai </strong>
     </div>
 @endsection

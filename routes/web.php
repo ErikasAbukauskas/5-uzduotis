@@ -44,6 +44,20 @@ Route::prefix('types')->group(function () {
 
 });
 
+Route::prefix('owners')->group(function () {
+
+    Route::get('','OwnerController@index')->name('owner.index');
+    Route::get('create','OwnerController@create')->name('owner.create');
+    Route::post('store','OwnerController@store')->name('owner.store');
+    Route::get('edit/{owner}','OwnerController@edit')->name('owner.edit');
+    Route::post('update/{owner}','OwnerController@update')->name('owner.update');
+    Route::post('delete/{owner}','OwnerController@destroy')->name('owner.destroy');
+    Route::get('show/{owner}','OwnerController@show')->name('owner.show');
+    Route::get('search','OwnerController@search')->name('owner.search');
+
+
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

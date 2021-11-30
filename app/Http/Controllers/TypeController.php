@@ -21,6 +21,7 @@ class TypeController extends Controller
         $type = new Type;
 
         $types = Type::all();
+        $record = $types->count();
         $title = $request->title;
         $collumnName = $request->collumnName;
         $sortby = $request->sortby;
@@ -37,7 +38,7 @@ class TypeController extends Controller
             ;
         }
 
-        return view("type.index", ['collumnName' => $collumnName, 'sortby' => $sortby, "types" => $types]);
+        return view("type.index", ['collumnName' => $collumnName, 'sortby' => $sortby, "types" => $types, "record" => $record]);
 
         // $types = Type::sortable()->paginate(2);
 
@@ -64,6 +65,12 @@ class TypeController extends Controller
     public function store(Request $request)
     {
         $type = new Type;
+
+        $validateVar = $request->validate([
+            'title' => ['required','regex:/^[a-zA-Z]+$/u'],
+            'description' => ['required', 'max:1500'],
+
+        ]);
 
 
         //DB stulpelio pavadinimas = input/select/textarea laukelio pavadinimas

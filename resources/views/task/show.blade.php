@@ -13,6 +13,7 @@
         <th>Logo</th>
         <th>Task type</th>
         <th>Task type description</th>
+        <th>Owner name</th>
 
         <tr>
             <td><strong>{{$task->id}}</strong></td>
@@ -23,6 +24,7 @@
             <td><p><strong>{{$task->logo}}</strong></p></td>
             <td><p><strong>{{$task->taskType->title}}</strong></p></td>
             <td><p><strong>{{$task->taskType->description}}</strong></p></td>
+            <td><p><strong>{{$task->taskOwner->name}} {{$task->taskOwner->surname}}</strong></p></td>
         </tr>
 
     </table>

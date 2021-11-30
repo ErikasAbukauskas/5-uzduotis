@@ -16,16 +16,18 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
 
             $table->id();
-            $table->string("title", 225);
-            $table->longText("description");
-            $table->dateTime("start_date");
-            $table->dateTime("end_date");
-            $table->string("logo", 225);
+            $table->string('title', 225);
+            $table->longText('description');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->string('logo', 225);
 
-            $table->unsignedBigInteger("type_id");
+            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('owner_id');
 
             //(sujungimo stulpelio pavadinimas)->(kitos lenteles id pavadinimas)->(kitos lenteles pavadinimas, su kuria sujungiam)
-            $table->foreign("type_id")->references("id")->on("types");
+            $table->foreign('type_id')->references('id')->on('types');
+            $table->foreign('owner_id')->references('id')->on('owners');
 
             $table->timestamps();
         });

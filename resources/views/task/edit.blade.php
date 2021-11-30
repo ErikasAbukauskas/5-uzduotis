@@ -2,6 +2,21 @@
 
 @section('content')
 <div class="container">
+
+    @error('start_date')
+        <div class="alert alert-danger">
+            {{$message}}
+            {{-- <p>Pavadinimas neivestas</p> --}}
+        </div>
+    @enderror
+
+    @error('end_date')
+        <div class="alert alert-danger">
+            {{$message}}
+            {{-- <p>Pavadinimas neivestas</p> --}}
+        </div>
+    @enderror
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -33,7 +48,12 @@
                             <label for="start_date" class="col-md-4 col-form-label text-md-right">{{ __('Start date') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="start_date" value="{{$task->start_date}}" required autofocus>
+                                <input id="name" type="text" class="form-control @error('start_date') is-invalid @enderror" name="start_date" value="{{$task->start_date}}"  required autofocus>
+                                @error('start_date')
+                                    <span role="alert" class="invalid-feedback">
+                                        <strong>*{{$message}}</strong>
+                                    </span>
+                                @enderror
 
                             </div>
                         </div>
@@ -42,7 +62,12 @@
                             <label for="end_date" class="col-md-4 col-form-label text-md-right">{{ __('End date') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="end_date" value="{{$task->end_date}}" required autofocus>
+                                <input id="name" type="text" class="form-control @error('end_date') is-invalid @enderror" name="end_date" value="{{$task->end_date}}"   required autofocus>
+                                @error('end_date')
+                                    <span role="alert" class="invalid-feedback">
+                                        <strong>*{{$message}}</strong>
+                                    </span>
+                                @enderror
 
                             </div>
                         </div>
@@ -72,6 +97,26 @@
 
                                     @foreach ($types as $type)
                                     <option value="{{$type->id}}" @if($type->id == $task->type_id) selected @endif> {{$type->title}}</option>
+                                @endforeach
+
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+
+                            <label for="task_owner" class="col-md-4 col-form-label text-md-right">{{ __('Task owner') }}</label>
+
+                            <div class="col-md-6">
+
+                                <select class ="form-control" name="owner">
+
+                                    {{-- Create blade yra atsakingas uz knygas --}}
+                                    {{-- Atviazduoti kito modelio informacija: apie autorius --}}
+
+                                    @foreach ($owners as $owner)
+                                    <option value="{{$owner->id}}" @if($owner->id == $task->owner_id) selected @endif> {{$owner->name}} {{$owner->surname}}</option>
                                 @endforeach
 
                                 </select>

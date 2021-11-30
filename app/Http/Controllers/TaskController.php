@@ -6,6 +6,8 @@ use App\Task;
 
 use App\Type;
 
+use App\Owner;
+
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -18,11 +20,26 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $type = new Type;
+        $task = new Task;
+        $owners = new Owner;
 
         $types = Type::all();
+
+        $owners = Owner::all();
+
+        $tasks = Task::all();
+
+        $record = $tasks->count();
+
+        $tasks = Task::sortable()->paginate(3);
+
         $type_id = $request->type_id;
         $collumnName = $request->collumnName;
         $sortby = $request->sortby;
+
+        $taskType = $request->taskType;
+        $taskOwner = $request->taskOwner;
+
 
         if(!$collumnName && !$sortby) {
             $collumnName = 'id';
@@ -36,7 +53,15 @@ class TaskController extends Controller
             ;
         }
 
-        return view("task.index", ["tasks" => $tasks, 'collumnName' => $collumnName, 'sortby' => $sortby, "types" => $types]);
+        if($taskType) {
+            $types = Type::sortable()->where('task_id', $taskType)->paginate(3);
+        } else if($taskOwner) {
+            $types = Type::sortable()->where('owner_id', $taskOwner)->paginate(3);
+        } else {
+            $types = Type::sortable()->paginate(3);
+        }
+
+        return view("task.index", ["tasks" => $tasks, 'collumnName' => $collumnName, 'sortby' => $sortby, "types" => $types, "record" => $record, "owners" => $owners]);
     }
 
     /**
@@ -49,7 +74,8 @@ class TaskController extends Controller
 
 
         $types = Type::all();
-        return view("task.create", ["types" => $types]);
+        $owners = Owner::all();
+        return view("task.create", ["types" => $types, "owners" => $owners]);
     }
 
     /**
@@ -62,6 +88,16 @@ class TaskController extends Controller
     {
         $task = new Task;
 
+        $validateVar = $request->validate([
+            'title' => ['required','min:6','max:225', 'regex:/^[a-zA-Z]+$/u'],
+            'description' => ['required', 'max:1500'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['required', 'date', 'after:start_date'],
+            'logo' => 'image',
+            'type' => 'numeric|integer',
+            'owner' => 'numeric|integer',
+        ]);
+
 
         //DB stulpelio pavadinimas = input/select/textarea laukelio pavadinimas
         $task->title = $request->title;
@@ -70,6 +106,7 @@ class TaskController extends Controller
         $task->end_date = $request->end_date;
         $task->logo = $request->logo;
         $task->type_id = $request->type; // selecto pavadinimas
+        $task->owner_id = $request->owner;
 
         if($request->has('logo')){
             $imageName = time().'.'.$request->logo->extension();
@@ -109,10 +146,12 @@ class TaskController extends Controller
      * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit(Task $task, Request $request)
     {
+
         $types = Type::all()->sortBy("id",SORT_REGULAR, true);
-        return view("task.edit", ["task" => $task, "types"=>$types]);
+        $owners = Owner::all()->sortBy("id",SORT_REGULAR, true);
+        return view("task.edit", ["task" => $task, "types" => $types, "owners" => $owners]);
     }
 
     /**
@@ -124,6 +163,14 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+
+        $validateVar = $request->validate([
+
+            'start_date' => ['date'],
+            'end_date' => ['date', 'after:start_date'],
+
+        ]);
+
         //DB stulpelio pavadinimas = input/select/textarea laukelio pavadinimas
         $task->title = $request->title;
         $task->description = $request->description;
